@@ -1,6 +1,7 @@
 package dev.changuii.project.entity;
 
 
+import dev.changuii.project.dto.response.WantedResponseDTO;
 import dev.changuii.project.enums.WantedStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -54,5 +55,17 @@ public class WantedEntity {
     @OneToMany(mappedBy = "wanted")
     private List<CommentEntity> comments = new ArrayList<>();
 
+    public WantedResponseDTO toResponseDTO(){
+        return WantedResponseDTO.builder()
+                .id(this.id)
+                .title(this.title)
+                .description(this.description)
+                .prize(this.prize)
+                .startDate(this.startDate)
+                .endDate(this.endDate)
+                .image(this.image)
+                .status(this.status)
+                .build();
+    }
 
 }

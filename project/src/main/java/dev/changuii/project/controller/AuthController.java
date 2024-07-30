@@ -1,10 +1,9 @@
 package dev.changuii.project.controller;
 
 
-import dev.changuii.project.dto.AuthResponseDto;
+import dev.changuii.project.dto.response.AuthResponseDto;
 import dev.changuii.project.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

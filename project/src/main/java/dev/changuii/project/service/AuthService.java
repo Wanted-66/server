@@ -1,6 +1,6 @@
 package dev.changuii.project.service;
 
-import dev.changuii.project.dto.AuthResponseDto;
+import dev.changuii.project.dto.response.AuthResponseDto;
 import org.springframework.stereotype.Service;
 
 @Service

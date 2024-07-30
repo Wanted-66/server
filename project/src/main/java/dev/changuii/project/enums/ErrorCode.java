@@ -2,14 +2,17 @@ package dev.changuii.project.enums;
 
 public enum ErrorCode {
 
-    // 로그인, 회원가입
+    // 로그인, 회원가입, 유저관련
     DUPLICATION_EMAIL_EXCEPTION("이메일 중복 에러"),
+    EMAIL_NOT_FOUND("존재하지 않는 이메일"),
 
     // S3
-    S3_IMAGE_PUT_EXCEPTION("이미지 업로드 중 에러");
+    S3_IMAGE_PUT_EXCEPTION("이미지 업로드 중 에러"),
 
 
     // wanted
+    WANTED_ALREADY_PROGRESS("이미 wanted가 진행중입니다."),
+    WANTED_NOT_FOUND("존재하지 않는 Wanted입니다.");
 
 
     private String errorData;

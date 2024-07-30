@@ -1,6 +1,6 @@
 package dev.changuii.project.service.impl;
 
-import dev.changuii.project.dto.AuthResponseDto;
+import dev.changuii.project.dto.response.AuthResponseDto;
 import dev.changuii.project.security.service.JwtProvider;
 import dev.changuii.project.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;

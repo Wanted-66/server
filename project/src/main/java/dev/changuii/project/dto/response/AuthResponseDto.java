@@ -1,4 +1,4 @@
-package dev.changuii.project.dto;
+package dev.changuii.project.dto.response;
 
 
 import lombok.*;
