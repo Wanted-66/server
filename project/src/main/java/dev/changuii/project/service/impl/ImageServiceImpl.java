@@ -30,6 +30,9 @@ public class ImageServiceImpl implements ImageService {
     @Value("${cloud.aws.s3.bucket-name}")
     private String bucketName;
 
+    @Value(("${cloud.aws.credentials.image-url}"))
+    private String baseUrl;
+
     private AmazonS3 amazonS3;
 
     public ImageServiceImpl(
@@ -46,7 +49,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public byte[] imageDownload(String data) throws IOException {
-        S3Object image = amazonS3.getObject(bucketName, data.replace("https://wanted6.s3.ap-northeast-2.amazonaws.com/", ""));
+        S3Object image = amazonS3.getObject(bucketName, data);
         return image.getObjectContent().readAllBytes();
     }
 
@@ -86,7 +89,12 @@ public class ImageServiceImpl implements ImageService {
             is.close();
         }
 
-        return amazonS3.getUrl(bucketName, s3FileName).toString();
+        // todo : 배포 url나오면 해당 url로 다운받는 링크 추가해야함
+        // 현재는 s3 키값만 들어가있음
+        String url = amazonS3.getUrl(bucketName, s3FileName).toString()
+                .replace(baseUrl, "");
+
+        return url;
     }
 
 }
