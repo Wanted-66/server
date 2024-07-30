@@ -27,6 +27,7 @@ public class ReportEntity {
     private String description;
 
     @Column(name = "report_status")
+    @Enumerated(EnumType.STRING)
     private ReportStatus status;
 
     @Column(name = "report_regi_date")

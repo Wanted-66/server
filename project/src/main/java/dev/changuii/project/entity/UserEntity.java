@@ -47,6 +47,7 @@ public class UserEntity {
     private String bankAccount;
 
     @Column(name = "user_designation")
+    @Enumerated(EnumType.STRING)
     private UserDesignation designation;
 
     @OneToMany(mappedBy = "writer")

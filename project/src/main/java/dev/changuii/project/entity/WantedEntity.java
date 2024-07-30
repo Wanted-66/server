@@ -38,6 +38,7 @@ public class WantedEntity {
     private LocalDate endDate;
 
     @Column(name="wanted_status")
+    @Enumerated(EnumType.STRING)
     private WantedStatus status;
 
     @Column(name = "wanted_image")

@@ -29,6 +29,7 @@ public class FriendshipEntity {
     private UserEntity receiver;
 
     @Column(name = "friendship_status")
+    @Enumerated(EnumType.STRING)
     private FriendshipStatus status;
 
 }
