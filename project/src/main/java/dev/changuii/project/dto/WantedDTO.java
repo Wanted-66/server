@@ -1,5 +1,6 @@
 package dev.changuii.project.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import dev.changuii.project.entity.UserEntity;
 import dev.changuii.project.entity.WantedEntity;
 import dev.changuii.project.enums.WantedStatus;
@@ -18,8 +19,13 @@ public class WantedDTO {
     private String title;
     private String description;
     private Integer prize;
+
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private LocalDate startDate;
+
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private LocalDate endDate;
+
     private String userEmail;
 
 
