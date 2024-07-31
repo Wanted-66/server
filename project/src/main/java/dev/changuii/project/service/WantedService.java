@@ -14,4 +14,6 @@ public interface WantedService {
 
     public WantedResponseDTO readWantedById(Long id);
     public List<WantedResponseDTO> readAllWantedByEmail(String email);
+
+    public WantedResponseDTO modifyWantedStatus(Long id, String status);
 }

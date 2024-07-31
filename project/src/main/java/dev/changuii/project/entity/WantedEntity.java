@@ -86,4 +86,9 @@ public class WantedEntity {
                 .map((e) -> e.toResponseDTO()).collect(Collectors.toList());
     }
 
+    public WantedEntity modifyStatus(String status){
+        this.status = WantedStatus.valueOf(status);
+        return this;
+    }
+
 }

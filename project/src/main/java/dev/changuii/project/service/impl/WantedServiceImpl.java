@@ -90,4 +90,14 @@ public class WantedServiceImpl implements WantedService {
 
         return WantedEntity.toResponseDTOList(wantedEntityList);
     }
+
+    @Override
+    public WantedResponseDTO modifyWantedStatus(Long id, String status) {
+        return wantedRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.WANTED_NOT_FOUND))
+                .modifyStatus(status)
+                .toResponseDTO();
+    }
+
+
 }

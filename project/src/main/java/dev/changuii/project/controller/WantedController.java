@@ -62,6 +62,14 @@ public class WantedController {
                 .body(this.wantedService.readAllWantedByEmail(email));
     }
 
+    @PatchMapping("/{id}/{status}")
+    public ResponseEntity<WantedResponseDTO> modifyWantedStatus(
+            @PathVariable("id") Long id,
+            @PathVariable("status") String status
+    ){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(this.wantedService.modifyWantedStatus(id, status));
+    }
 
 
 
