@@ -13,6 +13,7 @@ import dev.changuii.project.service.ImageService;
 import dev.changuii.project.service.WantedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -92,6 +93,7 @@ public class WantedServiceImpl implements WantedService {
     }
 
     @Override
+    @Transactional
     public WantedResponseDTO modifyWantedStatus(Long id, String status) {
         return wantedRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.WANTED_NOT_FOUND))
