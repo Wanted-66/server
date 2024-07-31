@@ -83,7 +83,8 @@ public class WantedEntity {
 
     public static List<WantedResponseDTO> toResponseDTOList(List<WantedEntity> wantedEntityList){
         return wantedEntityList.stream()
-                .map((e) -> e.toResponseDTO()).collect(Collectors.toList());
+                .map(WantedEntity::toResponseDTO)
+                .collect(Collectors.toList());
     }
 
     public WantedEntity modifyStatus(String status){
