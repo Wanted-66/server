@@ -24,6 +24,19 @@ server:
 #    key-store-type: PKCS12
 #    key-password:
 
+# s3
+cloud:
+  aws:
+    s3:
+      bucket-name: ${AWS-S3-BUCKET-NAME}
+    region:
+      static: ${AWS-S3-REGION}
+    stack:
+      auto: false
+    credentials:
+      access-key: ${AWS-ACCESSKEY}
+      secret-key: ${AWS-SCRETKEY}
+      image-url: ${AWS-IMAGEURL}
 
 ---
 # dev
@@ -44,18 +57,7 @@ spring:
       hibernate:
         format_sql: true
 
-cloud:
-  aws:
-    s3:
-      bucket-name: ${AWS-S3-BUCKET-NAME}
-    region:
-      static: ${AWS-S3-REGION}
-    stack:
-      auto: false
-    credentials:
-      access-key: ${AWS-ACCESSKEY}
-      secret-key: ${AWS-SCRETKEY}
-      image-url: ${AWS-IMAGEURL}
+
 
 ---
 # prod
@@ -73,17 +75,6 @@ spring:
       ddl-auto: update
     show-sql: false
 
-cloud:
-  aws:
-    s3:
-      bucket-name: ${AWS-S3-BUCKET-NAME}
-    region:
-      static: ${AWS-S3-REGION}
-    stack:
-      auto: false
-    credentials:
-      access-key: ${AWS-ACCESSKEY}
-      secret-key: ${AWS-SCRETKEY}
 
 
 
