@@ -1,6 +1,7 @@
 package dev.changuii.project.advisor;
 
 
+import dev.changuii.project.dto.ErrorDTO;
 import dev.changuii.project.exception.CustomException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,9 +38,9 @@ public class ControllerAdvisor {
     @ExceptionHandler({
             CustomException.class
     })
-    public ResponseEntity<String> exceptionHandler(CustomException e){
+    public ResponseEntity<ErrorDTO> exceptionHandler(CustomException e){
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(e.getErrorMessage());
+                .body(ErrorDTO.builder().code(400).description(e.getErrorMessage()).build());
     }
 }

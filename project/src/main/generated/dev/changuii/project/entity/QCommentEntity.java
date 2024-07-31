@@ -26,9 +26,9 @@ public class QCommentEntity extends EntityPathBase<CommentEntity> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final DateTimePath<java.time.LocalDateTime> registartionDate = createDateTime("registartionDate", java.time.LocalDateTime.class);
-
     public final QWantedEntity wanted;
+
+    public final DateTimePath<java.time.LocalDateTime> writeDate = createDateTime("writeDate", java.time.LocalDateTime.class);
 
     public final QUserEntity writer;
 

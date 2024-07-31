@@ -15,6 +15,8 @@ public enum ErrorCode {
     WANTED_NOT_FOUND("존재하지 않는 Wanted입니다.");
 
 
+
+
     private String errorData;
 
     private ErrorCode(String errorData){

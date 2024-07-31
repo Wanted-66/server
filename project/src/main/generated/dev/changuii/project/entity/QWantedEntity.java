@@ -22,6 +22,8 @@ public class QWantedEntity extends EntityPathBase<WantedEntity> {
 
     public static final QWantedEntity wantedEntity = new QWantedEntity("wantedEntity");
 
+    public final StringPath category = createString("category");
+
     public final ListPath<CommentEntity, QCommentEntity> comments = this.<CommentEntity, QCommentEntity>createList("comments", CommentEntity.class, QCommentEntity.class, PathInits.DIRECT2);
 
     public final StringPath description = createString("description");
@@ -30,11 +32,15 @@ public class QWantedEntity extends EntityPathBase<WantedEntity> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final StringPath image = createString("image");
+    public final StringPath mainImage = createString("mainImage");
 
     public final NumberPath<Integer> prize = createNumber("prize", Integer.class);
 
+    public final StringPath promise = createString("promise");
+
     public final ListPath<ReportEntity, QReportEntity> reports = this.<ReportEntity, QReportEntity>createList("reports", ReportEntity.class, QReportEntity.class, PathInits.DIRECT2);
+
+    public final StringPath signatureImage = createString("signatureImage");
 
     public final DatePath<java.time.LocalDate> startDate = createDate("startDate", java.time.LocalDate.class);
 

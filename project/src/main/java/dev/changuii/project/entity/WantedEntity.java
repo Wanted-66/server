@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -42,8 +43,17 @@ public class WantedEntity {
     @Enumerated(EnumType.STRING)
     private WantedStatus status;
 
-    @Column(name = "wanted_image")
-    private String image;
+    @Column(name = "wanted_main_image")
+    private String mainImage;
+
+    @Column(name = "wanted_signature_image")
+    private String signatureImage;
+
+    @Column(name = "wanted_promise")
+    private String promise;
+
+    @Column(name = "wanted_category")
+    private String category;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -63,9 +73,17 @@ public class WantedEntity {
                 .prize(this.prize)
                 .startDate(this.startDate)
                 .endDate(this.endDate)
-                .image(this.image)
+                .mainImage(this.mainImage)
+                .signatureImage(this.signatureImage)
+                .promise(this.promise)
+                .category(this.category)
                 .status(this.status)
                 .build();
+    }
+
+    public static List<WantedResponseDTO> toResponseDTOList(List<WantedEntity> wantedEntityList){
+        return wantedEntityList.stream()
+                .map((e) -> e.toResponseDTO()).collect(Collectors.toList());
     }
 
 }

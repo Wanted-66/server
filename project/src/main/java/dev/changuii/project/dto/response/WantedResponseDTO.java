@@ -20,13 +20,16 @@ public class WantedResponseDTO {
     private String description;
     private Integer prize;
 
-    @JsonFormat(pattern = "yyyy-mm-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
-    @JsonFormat(pattern = "yyyy-mm-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
     private WantedStatus status;
-    private String image;
+    private String mainImage;
+    private String signatureImage;
+    private String promise;
+    private String category;
 
 }

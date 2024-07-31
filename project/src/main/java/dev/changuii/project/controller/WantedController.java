@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/wanted")
@@ -27,28 +28,38 @@ public class WantedController {
 
 
     @PostMapping("/image")
-    public ResponseEntity<WantedResponseDTO> createPostWithImage(
-            @RequestPart("data") WantedDTO wantedDTO,
-            @RequestPart("image")MultipartFile image
+    public ResponseEntity<WantedResponseDTO> createWantedWithImage(
+            @RequestPart("dto") WantedDTO wantedDTO,
+            @RequestPart("main") MultipartFile mainImage,
+            @RequestPart("signature") MultipartFile signature
             ) throws IOException {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(this.wantedService.createWanted(wantedDTO, image));
+                .body(this.wantedService.createWanted(wantedDTO, mainImage, signature));
     }
 
-    @PostMapping("/")
-    public ResponseEntity<WantedResponseDTO> createPost(
-            @RequestBody WantedDTO wantedDTO
-    ){
+    @PostMapping()
+    public ResponseEntity<WantedResponseDTO> createWanted(
+            @RequestPart("dto") WantedDTO wantedDTO,
+            @RequestPart("signature") MultipartFile signature
+    ) throws IOException {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(this.wantedService.createWanted(wantedDTO));
+                .body(this.wantedService.createWanted(wantedDTO, signature));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<WantedResponseDTO> readPostById(
+    public ResponseEntity<WantedResponseDTO> readWantedById(
             @PathVariable("id") Long id
     ){
         return ResponseEntity.status(HttpStatus.OK)
                 .body(this.wantedService.readWantedById(id));
+    }
+
+    @GetMapping("/all/{email}")
+    public ResponseEntity<List<WantedResponseDTO>> readAllWantedByUserEmail(
+            @PathVariable("email") String email
+    ){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(this.wantedService.readAllWantedByEmail(email));
     }
 
 

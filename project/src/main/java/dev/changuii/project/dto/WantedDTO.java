@@ -19,17 +19,19 @@ public class WantedDTO {
     private String title;
     private String description;
     private Integer prize;
+    private String promise;
+    private String category;
 
-    @JsonFormat(pattern = "yyyy-mm-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
-    @JsonFormat(pattern = "yyyy-mm-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
     private String userEmail;
 
 
-    public WantedEntity toEntity(UserEntity user, String image, WantedStatus status){
+    public WantedEntity toEntity(UserEntity user, String mainImage, String signatureImage, WantedStatus status){
         return WantedEntity.builder()
                 .title(this.title)
                 .description(this.description)
@@ -37,7 +39,9 @@ public class WantedDTO {
                 .startDate(this.startDate)
                 .endDate(this.endDate)
                 .status(status)
-                .image(image)
+                .mainImage(mainImage)
+                .signatureImage(signatureImage)
+                .category(this.category)
                 .user(user)
                 .build();
     }

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 
 @Service
@@ -37,24 +38,25 @@ public class WantedServiceImpl implements WantedService {
     }
 
     @Override
-    public WantedResponseDTO createWanted(WantedDTO wantedDTO, MultipartFile image) throws IOException {
+    public WantedResponseDTO createWanted(WantedDTO wantedDTO, MultipartFile mainImage, MultipartFile signature) throws IOException {
         UserEntity user = this.userRepository.findByEmail(wantedDTO.getUserEmail())
                 .orElseThrow(() -> new CustomException(ErrorCode.EMAIL_NOT_FOUND));
 
         if(wantedRepository.existsByUserAndStatus(user, WantedStatus.PROGRESS))
             throw new CustomException(ErrorCode.WANTED_ALREADY_PROGRESS);
 
-        String imageUrl = this.imageService.ImageUpload(image);
+        String mainImageUrl = this.imageService.ImageUpload(mainImage);
+        String signautreUrl = this.imageService.ImageUpload(signature);
 
         WantedEntity wanted = wantedDTO
-                .toEntity(user, imageUrl, WantedStatus.PROGRESS);
+                .toEntity(user, mainImageUrl,  signautreUrl, WantedStatus.PROGRESS);
 
         return this.wantedRepository.save(wanted)
                 .toResponseDTO();
     }
 
     @Override
-    public WantedResponseDTO createWanted(WantedDTO wantedDTO) {
+    public WantedResponseDTO createWanted(WantedDTO wantedDTO, MultipartFile signature) throws IOException {
         UserEntity user = this.userRepository.findByEmail(wantedDTO.getUserEmail())
                 .orElseThrow(() -> new CustomException(ErrorCode.EMAIL_NOT_FOUND));
 
@@ -62,10 +64,11 @@ public class WantedServiceImpl implements WantedService {
             throw new CustomException(ErrorCode.WANTED_ALREADY_PROGRESS);
 
         // todo 우리 서비스 url로 변경해야함 (도메인나오면, basic은 기본 이미지이름)
-        String imageUrl = "basic.png";
+        String mainImageUrl = "basic.png";
+        String signatureUrl = this.imageService.ImageUpload(signature);
 
         WantedEntity wanted = wantedDTO
-                .toEntity(user, imageUrl, WantedStatus.PROGRESS);
+                .toEntity(user, mainImageUrl, signatureUrl, WantedStatus.PROGRESS);
 
         return this.wantedRepository.save(wanted)
                 .toResponseDTO();
@@ -76,5 +79,15 @@ public class WantedServiceImpl implements WantedService {
         return wantedRepository.findById(id)
                 .orElseThrow(() -> new CustomException(ErrorCode.WANTED_NOT_FOUND))
                 .toResponseDTO();
+    }
+
+    @Override
+    public List<WantedResponseDTO> readAllWantedByEmail(String email) {
+        UserEntity user = this.userRepository.findByEmail(email)
+                .orElseThrow(() -> new CustomException(ErrorCode.EMAIL_NOT_FOUND));
+
+        List<WantedEntity> wantedEntityList = this.wantedRepository.readAllByUser(user);
+
+        return WantedEntity.toResponseDTOList(wantedEntityList);
     }
 }
