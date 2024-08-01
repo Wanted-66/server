@@ -82,6 +82,15 @@ public class WantedServiceImpl implements WantedService {
     }
 
     @Override
+    public Boolean isProgressByEmail(String email) {
+        UserEntity user = this.userRepository.findByEmail(email)
+                .orElseThrow(() -> new CustomException(ErrorCode.EMAIL_NOT_FOUND));
+
+        return this.wantedRepository
+                .existsByUserAndStatus(user, WantedStatus.PROGRESS);
+    }
+
+    @Override
     public List<WantedResponseDTO> readAllWantedByEmail(String email) {
         UserEntity user = this.userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.EMAIL_NOT_FOUND));

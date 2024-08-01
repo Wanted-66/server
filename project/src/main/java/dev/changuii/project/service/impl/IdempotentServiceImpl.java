@@ -38,7 +38,7 @@ public class IdempotentServiceImpl implements IdempotentService {
                 .setIfAbsent(idempotentKey, VALUE, TIME_LIMIT, TimeUnit.SECONDS);
 
         if(!isSUCCESS)
-            throw new CustomException(ErrorCode.DUPLICATION_REQUESST);
+            throw new CustomException(ErrorCode.DUPLICATION_REQUEST);
     }
 
 

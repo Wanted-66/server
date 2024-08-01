@@ -18,7 +18,7 @@ public enum ErrorCode {
     REPORT_NOT_FOUND("존재하지 않는 report입니다."),
 
     // idempotent
-    DUPLICATION_REQUESST("중복된 요청입니다.");
+    DUPLICATION_REQUEST("중복된 요청입니다.");
 
 
 

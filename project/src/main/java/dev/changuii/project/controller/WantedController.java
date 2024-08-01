@@ -70,6 +70,15 @@ public class WantedController {
                 .body(this.wantedService.readAllWantedByEmail(email));
     }
 
+    @GetMapping("/is-progress/{email}")
+    public ResponseEntity<Boolean> isProgressUser(
+            @PathVariable("email") String email
+    ){
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(this.wantedService.isProgressByEmail(email));
+    }
+
+
     @PatchMapping("/{id}/{status}")
     public ResponseEntity<WantedResponseDTO> modifyWantedStatus(
             @PathVariable("id") Long id,
@@ -79,6 +88,8 @@ public class WantedController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(this.wantedService.modifyWantedStatus(id, status));
     }
+
+
 
 
 

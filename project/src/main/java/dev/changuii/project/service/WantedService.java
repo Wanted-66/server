@@ -13,6 +13,7 @@ public interface WantedService {
     public WantedResponseDTO createWanted(WantedDTO wantedDTO, MultipartFile signature) throws IOException;
 
     public WantedResponseDTO readWantedById(Long id);
+    public Boolean isProgressByEmail(String email);
     public List<WantedResponseDTO> readAllWantedByEmail(String email);
 
     public WantedResponseDTO modifyWantedStatus(Long id, String status);
