@@ -64,8 +64,7 @@ public class WantedServiceImpl implements WantedService {
         if(wantedRepository.existsByUserAndStatus(user, WantedStatus.PROGRESS))
             throw new CustomException(ErrorCode.WANTED_ALREADY_PROGRESS);
 
-        // todo 우리 서비스 url로 변경해야함 (도메인나오면, basic은 기본 이미지이름)
-        String mainImageUrl = "basic.png";
+        String mainImageUrl = this.imageService.getBasicImage();
         String signatureUrl = this.imageService.ImageUpload(signature);
 
         WantedEntity wanted = wantedDTO

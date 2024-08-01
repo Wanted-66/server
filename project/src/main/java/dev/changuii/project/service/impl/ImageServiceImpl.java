@@ -53,6 +53,11 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
+    public String getBasicImage() {
+        return this.serverDomain+"/api/image/basic.png";
+    }
+
+    @Override
     public byte[] imageDownload(String data) throws IOException {
         S3Object image = amazonS3.getObject(bucketName, data);
         return image.getObjectContent().readAllBytes();

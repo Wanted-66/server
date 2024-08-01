@@ -8,6 +8,7 @@ public interface ImageService {
 
 
     public String ImageUpload(MultipartFile image) throws IOException;
+    public String getBasicImage();
 
     public byte[] imageDownload(String data) throws IOException;
 }

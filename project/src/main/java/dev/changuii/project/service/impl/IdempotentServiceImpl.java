@@ -18,7 +18,7 @@ public class IdempotentServiceImpl implements IdempotentService {
 
     private final String VALUE = "IDEMPOTENT";
     private final StringRedisTemplate redisTemplate;
-    private final Integer TIME_LIMIT = 3;
+    private final Integer TIME_LIMIT = 5;
 
 
 
