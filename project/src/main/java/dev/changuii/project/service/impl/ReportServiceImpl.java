@@ -77,10 +77,8 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public void deleteReportById(Long id) {
-        try {
-            this.reportRepository.deleteById(id);
-        }catch (EmptyResultDataAccessException e){
+        if(!this.reportRepository.existsById(id))
             throw new CustomException(ErrorCode.REPORT_NOT_FOUND);
-        }
+        this.reportRepository.deleteById(id);
     }
 }

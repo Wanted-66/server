@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/{wantedId}/report")
+@RequestMapping("/api/wanted/{wantedId}/report")
 public class ReportController {
 
 
