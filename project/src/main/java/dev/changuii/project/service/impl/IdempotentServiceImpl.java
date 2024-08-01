@@ -4,7 +4,6 @@ import dev.changuii.project.enums.ErrorCode;
 import dev.changuii.project.exception.CustomException;
 import dev.changuii.project.service.IdempotentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +19,8 @@ public class IdempotentServiceImpl implements IdempotentService {
     private final String VALUE = "IDEMPOTENT";
     private final StringRedisTemplate redisTemplate;
     private final Integer TIME_LIMIT = 3;
+
+
 
     public IdempotentServiceImpl(
             @Autowired StringRedisTemplate redisTemplate
