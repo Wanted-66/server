@@ -3,6 +3,7 @@ package dev.changuii.project.controller;
 
 import dev.changuii.project.dto.WantedDTO;
 import dev.changuii.project.dto.response.WantedResponseDTO;
+import dev.changuii.project.service.IdempotentService;
 import dev.changuii.project.service.WantedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -19,10 +21,14 @@ public class WantedController {
 
 
     private final WantedService wantedService;
+    private final IdempotentService idempotentService;
+    private final String NAME = "WANTED";
 
     public WantedController(
+            @Autowired IdempotentService idempotentService,
             @Autowired WantedService wantedService
     ){
+        this.idempotentService=idempotentService;
         this.wantedService=wantedService;
     }
 
@@ -33,6 +39,7 @@ public class WantedController {
             @RequestPart("main") MultipartFile mainImage,
             @RequestPart("signature") MultipartFile signature
             ) throws IOException {
+        this.idempotentService.isValidIdempotent(Arrays.asList(new String[]{NAME, "POST", wantedDTO.getUserEmail()}));
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(this.wantedService.createWanted(wantedDTO, mainImage, signature));
     }
@@ -42,6 +49,7 @@ public class WantedController {
             @RequestPart("dto") WantedDTO wantedDTO,
             @RequestPart("signature") MultipartFile signature
     ) throws IOException {
+        this.idempotentService.isValidIdempotent(Arrays.asList(new String[]{NAME, "POST", wantedDTO.getUserEmail()}));
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(this.wantedService.createWanted(wantedDTO, signature));
     }
@@ -67,6 +75,7 @@ public class WantedController {
             @PathVariable("id") Long id,
             @PathVariable("status") String status
     ){
+        this.idempotentService.isValidIdempotent(Arrays.asList(new String[]{NAME, "PATCH", id.toString()}));
         return ResponseEntity.status(HttpStatus.OK)
                 .body(this.wantedService.modifyWantedStatus(id, status));
     }

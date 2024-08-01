@@ -15,7 +15,10 @@ public enum ErrorCode {
     WANTED_NOT_FOUND("존재하지 않는 Wanted입니다."),
 
     // report
-    REPORT_NOT_FOUND("존재하지 않는 report입니다.");
+    REPORT_NOT_FOUND("존재하지 않는 report입니다."),
+
+    // idempotent
+    DUPLICATION_REQUESST("중복된 요청입니다.");
 
 
 

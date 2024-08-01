@@ -3,6 +3,7 @@ package dev.changuii.project.controller;
 
 import dev.changuii.project.dto.ReportDTO;
 import dev.changuii.project.dto.response.ReportResponseDTO;
+import dev.changuii.project.service.IdempotentService;
 import dev.changuii.project.service.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -19,10 +21,14 @@ public class ReportController {
 
 
     private final ReportService reportService;
+    private final IdempotentService idempotentService;
+    private final String NAME = "REPORT";
 
     public ReportController(
-            @Autowired ReportService reportService
+            @Autowired ReportService reportService,
+            @Autowired IdempotentService idempotentService
     ){
+        this.idempotentService=idempotentService;
         this.reportService = reportService;
     }
 
@@ -33,6 +39,7 @@ public class ReportController {
             @RequestPart("image")MultipartFile image,
             @PathVariable("wantedId")Long wantedId
             ) throws IOException {
+        this.idempotentService.isValidIdempotent(Arrays.asList(new String[]{NAME, "POST", reportDTO.getUserEmail()}));
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(this.reportService.createReport(reportDTO, wantedId, image));
     }
