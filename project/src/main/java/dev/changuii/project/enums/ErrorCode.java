@@ -12,8 +12,10 @@ public enum ErrorCode {
 
     // wanted
     WANTED_ALREADY_PROGRESS("이미 wanted가 진행중입니다."),
-    WANTED_NOT_FOUND("존재하지 않는 Wanted입니다.");
+    WANTED_NOT_FOUND("존재하지 않는 Wanted입니다."),
 
+    // report
+    REPORT_NOT_FOUND("존재하지 않는 report입니다.");
 
 
 

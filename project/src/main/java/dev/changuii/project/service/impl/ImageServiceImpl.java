@@ -30,8 +30,13 @@ public class ImageServiceImpl implements ImageService {
     @Value("${cloud.aws.s3.bucket-name}")
     private String bucketName;
 
-    @Value(("${cloud.aws.credentials.image-url}"))
+    @Value("${cloud.aws.credentials.image-url}")
     private String baseUrl;
+
+    @Value("${server.domain}")
+    private String serverDomain;
+
+
 
     private AmazonS3 amazonS3;
 
@@ -89,9 +94,9 @@ public class ImageServiceImpl implements ImageService {
             is.close();
         }
 
-        // todo : 배포 url나오면 해당 url로 다운받는 링크 추가해야함
+
         // 현재는 s3 키값만 들어가있음
-        String url = amazonS3.getUrl(bucketName, s3FileName).toString()
+        String url =  serverDomain + "/api/image/" + amazonS3.getUrl(bucketName, s3FileName).toString()
                 .replace(baseUrl, "");
 
         return url;

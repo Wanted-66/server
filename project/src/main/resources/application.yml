@@ -11,6 +11,7 @@ spring:
       max-file-size: 50MB
 
 server:
+  domain: https://wanted66.r-e.kr
   port: 80
   # Mock Mvc test response
   servlet:
@@ -37,6 +38,8 @@ cloud:
       access-key: ${AWS-ACCESSKEY}
       secret-key: ${AWS-SCRETKEY}
       image-url: ${AWS-IMAGEURL}
+
+
 
 ---
 # dev
