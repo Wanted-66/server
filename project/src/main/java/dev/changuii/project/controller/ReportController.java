@@ -74,6 +74,7 @@ public class ReportController {
     public ResponseEntity deleteById(
             @PathVariable("id") Long id
     ){
+        this.reportService.deleteReportById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
