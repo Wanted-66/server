@@ -36,6 +36,7 @@ public class WantedDTO {
                 .title(this.title)
                 .description(this.description)
                 .prize(this.prize)
+                .promise(this.promise)
                 .startDate(this.startDate)
                 .endDate(this.endDate)
                 .status(status)

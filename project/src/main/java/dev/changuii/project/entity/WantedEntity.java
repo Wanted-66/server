@@ -74,7 +74,6 @@ public class WantedEntity {
                 .startDate(this.startDate)
                 .endDate(this.endDate)
                 .mainImage(this.mainImage)
-
                 .signatureImage(this.signatureImage)
                 .promise(this.promise)
                 .category(this.category)

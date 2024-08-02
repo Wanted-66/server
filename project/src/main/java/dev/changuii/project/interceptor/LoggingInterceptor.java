@@ -16,7 +16,6 @@ public class LoggingInterceptor implements HandlerInterceptor {
         logger.info("URL :" + request.getRequestURL());
         logger.info("METHOD : "+ request.getMethod());
         logger.info("Client : " + request.getRemoteAddr());
-
         return true;
     }
 
