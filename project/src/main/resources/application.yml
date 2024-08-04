@@ -40,6 +40,9 @@ cloud:
       image-url: ${AWS-IMAGEURL}
 
 
+kakao:
+  client_id: 655bbbeb236a179c04e0c19d5bd7b491
+  redirect_uri: http://localhost:80/callback
 
 ---
 # dev

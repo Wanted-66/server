@@ -21,15 +21,10 @@ public class FriendshipController {
     }
 
     // 내 친구목록 조회
+    // TODO: id 조회 -> JWT에 있는 email로 조회
     @GetMapping("/{id}")
     public ResponseEntity<List<FriendListResponseDto>> getMyFriendship(@PathVariable(name = "id")Long id){
-        List<FriendListResponseDto> response =  friendshipService.getFriends(id);
-
-        if(response.isEmpty()) {
-            return ResponseEntity.ok(Collections.emptyList());
-        }
-        else
-            return ResponseEntity.ok(response);
+        return ResponseEntity.ok(friendshipService.getFriends(id));
     }
 
 
