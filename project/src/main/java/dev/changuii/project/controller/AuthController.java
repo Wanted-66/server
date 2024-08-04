@@ -3,12 +3,13 @@ package dev.changuii.project.controller;
 
 import dev.changuii.project.dto.response.AuthResponseDto;
 import dev.changuii.project.dto.response.KakaoTokenResponseDto;
+import dev.changuii.project.security.service.JwtProvider;
 import dev.changuii.project.service.AuthService;
 import dev.changuii.project.service.KakaoService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,74 +20,43 @@ public class AuthController {
 
     private final AuthService authService;
     private final KakaoService kakaoService;
+    private final JwtProvider jwtProvider;
+
 
 
     public AuthController(@Autowired AuthService authService,
-                          @Autowired KakaoService kakaoService) {
+                          @Autowired KakaoService kakaoService,
+                          @Autowired JwtProvider jwtProvider) {
         this.authService = authService;
         this.kakaoService = kakaoService;
+        this.jwtProvider = jwtProvider;
     }
 
-    @Value("${kakao.client_id}")
-    private String kakaoClientId;
-
-    @Value("${kakao.redirect_uri}")
-    private String kakaoRedirectUri;
-
-    private final String base = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}";
-
-
-    //kakao login
-//    @GetMapping("/kakao")
-//    @GetMapping()
-//    public ResponseEntity<AuthResponseDto> getAuth() {
-//
-//
-//    }
-
-
-
-    //callback
+    // kakao auth callback
     @GetMapping("/callback")
-    public ResponseEntity<Void> callback(@RequestParam("code") String code) {
-        log.info(code);
-        KakaoTokenResponseDto accessToken = kakaoService.getKakaoAccessToken(code);
-        log.info(accessToken.toString());
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<AuthResponseDto> callback(@RequestParam("code") String code) {
+
+        KakaoTokenResponseDto kakaoAUth = kakaoService.getKakaoAccessToken(code);
+
+        AuthResponseDto responseDto = AuthResponseDto.builder()
+                .accessToken(jwtProvider.createAccessToken(kakaoAUth.getEmail()))
+                .refreshToken(jwtProvider.createRefreshToken(kakaoAUth.getEmail()))
+                .build();
+
+        return ResponseEntity.ok(responseDto);
     }
-
-
-
-    //login
-    @PostMapping("/signin")
-    public AuthResponseDto login()
-    {
-
-        return authService.login();
-    }
-
-    //signup
-    @PostMapping("/signup")
-    public AuthResponseDto signin(){
-        return authService.signin();
-    }
-
 
     //issue refresh token
     @PostMapping("/issue/access")
-    public AuthResponseDto reissueRefreshToken(){
-        return authService.reissueRefreshToken();
+    public AuthResponseDto reissueRefreshToken(HttpServletRequest request){
+        return authService.reissueRefreshToken(jwtProvider.getNickname(request));
     }
 
 
     //issue access token
     @PostMapping("/issue/refresh")
-    public AuthResponseDto reissueAccessToken(){
-        return authService.reissueAccessToken();
+    public AuthResponseDto reissueAccessToken(HttpServletRequest request){
+        return authService.reissueAccessToken(jwtProvider.getNickname(request));
     }
-
-
-
-
 
 }

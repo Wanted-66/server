@@ -1,5 +1,7 @@
 package dev.changuii.project.security.service;
 
+import dev.changuii.project.enums.ErrorCode;
+import dev.changuii.project.exception.CustomException;
 import io.jsonwebtoken.*;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,7 +16,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Base64;
 import java.util.Date;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -36,8 +37,8 @@ public class JwtProvider {
     }
 
     // JWT access token 생성
-    public String createAccessToken(String userPk) {
-        Claims claims = Jwts.claims().setSubject(userPk);
+    public String createAccessToken(String nickname) {
+        Claims claims = Jwts.claims().setSubject(nickname);
         Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims)      // 데이터
@@ -48,8 +49,8 @@ public class JwtProvider {
     }
 
     // JWT refresh token 생성
-    public String createRefreshToken(String userPk) {
-        Claims claims = Jwts.claims().setSubject(userPk);
+    public String createRefreshToken(String nickname) {
+        Claims claims = Jwts.claims().setSubject(nickname);
         Date now = new Date();
         return Jwts.builder()
                 .setClaims(claims)      // 데이터
@@ -61,14 +62,39 @@ public class JwtProvider {
 
     // Jwt 토큰으로 인증 정보를 조회
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getUserPk(token));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getNickname(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
     // Jwt 토큰에서 회원 구별 정보 추출
-    public String getUserPk(String token) {
+    public String getNickname(String token) {
 //        return Jwts.parser().setSigningKey(securityKey).parseClaimsJws(token).getBody().getSubject();
         return getClaims(token).getBody().getSubject();
+    }
+
+    public boolean validToken(String token){
+        try {
+            log.info("토큰 유효성 검사");
+            Jws<Claims> claims = getClaims(token);
+            log.info("토큰 유효성 검사 성공");
+            return !claims.getBody().getExpiration().before(new Date());
+        }catch (NullPointerException ex)
+        {
+            log.info("토큰이 없음");
+            throw ex;
+        } catch (Exception ex){
+            log.info("토큰 유효성 실패");
+            throw ex;
+        }
+    }
+
+    public String getNickname(HttpServletRequest request){
+        String token = resolveToken(request);
+        if (validToken(token)) {
+            return getNickname(token);
+        } else {
+            throw new CustomException(ErrorCode.INVALID_TOKEN);
+        }
     }
 
 

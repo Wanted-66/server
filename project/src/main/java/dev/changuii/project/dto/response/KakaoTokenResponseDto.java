@@ -34,4 +34,7 @@ public class KakaoTokenResponseDto {
     @JsonProperty("scope")
     public String scope;
 
+    @JsonProperty("email")
+    public String email;
+
 }

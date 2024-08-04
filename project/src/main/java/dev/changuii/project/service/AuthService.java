@@ -8,6 +8,6 @@ public interface AuthService {
 
     AuthResponseDto login();
     AuthResponseDto signin();
-    AuthResponseDto reissueAccessToken();
-    AuthResponseDto reissueRefreshToken();
+    AuthResponseDto reissueAccessToken(String nickname);
+    AuthResponseDto reissueRefreshToken(String nickname);
 }

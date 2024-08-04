@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 public class AuthResponseDto {
 
-    String status;
+//    String status;
     String message;
     String accessToken;
     String refreshToken;

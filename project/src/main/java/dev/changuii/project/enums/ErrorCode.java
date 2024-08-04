@@ -19,8 +19,11 @@ public enum ErrorCode {
     REPORT_NOT_FOUND("존재하지 않는 report입니다."),
 
     // idempotent
-    DUPLICATION_REQUEST("중복된 요청입니다.");
+    DUPLICATION_REQUEST("중복된 요청입니다."),
 
+
+    //TOKEN
+    INVALID_TOKEN("유효하지 않은 토큰");
 
 
     private String errorData;

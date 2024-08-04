@@ -26,7 +26,7 @@ public class AuthServiceImpl implements AuthService {
         // need user validation
 
         return AuthResponseDto.builder()
-                .status(HttpStatus.OK.toString())
+//                .status(HttpStatus.OK.toString())
                 .message("login successful")
                 .refreshToken(jwtProvider.createRefreshToken("need user PK"))
                 .accessToken(jwtProvider.createAccessToken("need user PK"))
@@ -39,7 +39,7 @@ public class AuthServiceImpl implements AuthService {
         // need user validation
 
         return AuthResponseDto.builder()
-                .status(HttpStatus.OK.toString())
+//                .status(HttpStatus.OK.toString())
                 .message("login successful")
                 .refreshToken(jwtProvider.createRefreshToken("need user PK"))
                 .accessToken(jwtProvider.createAccessToken("need user PK"))
@@ -47,28 +47,28 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AuthResponseDto reissueAccessToken() {
+    public AuthResponseDto reissueAccessToken(String nickname) {
 
         // need user validation
 
         return AuthResponseDto.builder()
-                .status(HttpStatus.OK.toString())
-                .message("REISSUE ACCESS TOKEN")
+//                .status(HttpStatus.OK.toString())
+                .message("ISSUE ACCESS TOKEN")
                 .refreshToken("")
-                .accessToken(jwtProvider.createAccessToken("need user PK"))
+                .accessToken(jwtProvider.createAccessToken(nickname))
                 .build();
     }
 
     @Override
-    public AuthResponseDto reissueRefreshToken() {
+    public AuthResponseDto reissueRefreshToken(String nickname) {
 
         // need user validation
 
         return AuthResponseDto.builder()
-                .status(HttpStatus.OK.toString())
-                .message("REISSUE REFRESH TOKEN")
-                .refreshToken(jwtProvider.createRefreshToken("need user PK"))
-                .accessToken(jwtProvider.createAccessToken("need user PK"))
+//                .status(HttpStatus.OK.toString())
+                .message("ISSUE REFRESH TOKEN")
+                .refreshToken(jwtProvider.createRefreshToken(nickname))
+                .accessToken(jwtProvider.createAccessToken(nickname))
                 .build();
     }
 
