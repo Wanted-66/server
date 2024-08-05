@@ -52,7 +52,7 @@ public class CustomSampleRepositoryImpl implements CustomSampleRepository {
                         userEntity.profileImage,
                         userEntity.introduction,
                         userEntity.registerDate,
-                        userEntity.designation))
+                        userEntity.userDesignationList))
                 .from(friendshipEntity)
                 .leftJoin(userEntity)
                 .on(friendshipEntity.receiver.email.eq(userEntity.email).and(friendshipEntity.status.eq(FriendshipStatus.FRIEND))).fetch();
@@ -70,7 +70,7 @@ public class CustomSampleRepositoryImpl implements CustomSampleRepository {
                                 userEntity.profileImage,
                                 userEntity.introduction,
                                 userEntity.registerDate,
-                                userEntity.designation))
+                                userEntity.userDesignationList))
                 .from(friendshipEntity)
                 .leftJoin(userEntity)
                 .on(friendshipEntity.receiver.email.eq(userEntity.email).and(friendshipEntity.status.eq(FriendshipStatus.REQUESTING))).fetch();
@@ -88,7 +88,7 @@ public class CustomSampleRepositoryImpl implements CustomSampleRepository {
                         userEntity.profileImage,
                         userEntity.introduction,
                         userEntity.registerDate,
-                        userEntity.designation))
+                        userEntity.userDesignationList))
                 .from(userEntity)
                 .where(userEntity.nickname.contains(dto.getNickname()))
                 .offset(dto.getPageable().getOffset())

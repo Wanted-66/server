@@ -24,8 +24,6 @@ public class QUserEntity extends EntityPathBase<UserEntity> {
 
     public final ListPath<CommentEntity, QCommentEntity> comments = this.<CommentEntity, QCommentEntity>createList("comments", CommentEntity.class, QCommentEntity.class, PathInits.DIRECT2);
 
-    public final EnumPath<dev.changuii.project.enums.UserDesignation> designation = createEnum("designation", dev.changuii.project.enums.UserDesignation.class);
-
     public final StringPath email = createString("email");
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
@@ -47,6 +45,8 @@ public class QUserEntity extends EntityPathBase<UserEntity> {
     public final ListPath<ReportEntity, QReportEntity> reports = this.<ReportEntity, QReportEntity>createList("reports", ReportEntity.class, QReportEntity.class, PathInits.DIRECT2);
 
     public final ListPath<FriendshipEntity, QFriendshipEntity> sendFriendship = this.<FriendshipEntity, QFriendshipEntity>createList("sendFriendship", FriendshipEntity.class, QFriendshipEntity.class, PathInits.DIRECT2);
+
+    public final ListPath<dev.changuii.project.enums.UserDesignation, EnumPath<dev.changuii.project.enums.UserDesignation>> userDesignationList = this.<dev.changuii.project.enums.UserDesignation, EnumPath<dev.changuii.project.enums.UserDesignation>>createList("userDesignationList", dev.changuii.project.enums.UserDesignation.class, EnumPath.class, PathInits.DIRECT2);
 
     public final ListPath<WantedEntity, QWantedEntity> wantedList = this.<WantedEntity, QWantedEntity>createList("wantedList", WantedEntity.class, QWantedEntity.class, PathInits.DIRECT2);
 
