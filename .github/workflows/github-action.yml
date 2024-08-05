@@ -20,6 +20,7 @@ jobs:
 
       - name: Gradle Build
         run: |
+          export $(cat work.env | xargs)
           cd project
           chmod +x gradlew
           ./gradlew clean build
