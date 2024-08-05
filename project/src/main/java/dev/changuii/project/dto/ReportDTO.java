@@ -4,6 +4,7 @@ import dev.changuii.project.entity.ReportEntity;
 import dev.changuii.project.entity.UserEntity;
 import dev.changuii.project.entity.WantedEntity;
 import dev.changuii.project.enums.ReportStatus;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +19,7 @@ import java.time.ZoneId;
 @NoArgsConstructor @AllArgsConstructor
 public class ReportDTO {
 
+    @Size(min = 1, max = 500, message = "최소 1자 이상 최대 500자 이하")
     private String description;
     private ReportStatus status;
     private String userEmail;

@@ -5,6 +5,7 @@ import dev.changuii.project.dto.WantedDTO;
 import dev.changuii.project.dto.response.WantedResponseDTO;
 import dev.changuii.project.service.IdempotentService;
 import dev.changuii.project.service.WantedService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,7 @@ public class WantedController {
 
     @PostMapping("/image")
     public ResponseEntity<WantedResponseDTO> createWantedWithImage(
-            @RequestPart("dto") WantedDTO wantedDTO,
+            @Valid @RequestPart("dto") WantedDTO wantedDTO,
             @RequestPart("main") MultipartFile mainImage,
             @RequestPart("signature") MultipartFile signature
             ) throws IOException {
@@ -48,7 +49,7 @@ public class WantedController {
 
     @PostMapping()
     public ResponseEntity<WantedResponseDTO> createWanted(
-            @RequestPart("dto") WantedDTO wantedDTO,
+            @Valid @RequestPart("dto") WantedDTO wantedDTO,
             @RequestPart("signature") MultipartFile signature
     ) throws IOException {
         this.idempotentService.isValidIdempotent(Arrays.asList(new String[]{NAME, "POST", wantedDTO.getUserEmail()}));

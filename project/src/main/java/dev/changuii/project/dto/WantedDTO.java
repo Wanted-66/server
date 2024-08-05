@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import dev.changuii.project.entity.UserEntity;
 import dev.changuii.project.entity.WantedEntity;
 import dev.changuii.project.enums.WantedStatus;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,10 +18,15 @@ import java.time.LocalDate;
 @NoArgsConstructor @AllArgsConstructor
 public class WantedDTO {
 
+    @Size(min = 1, max = 10, message = "최소 1자 이상 최대 10자 이하")
     private String title;
+    @Size(min = 1, max = 100, message = "최소 1자 이상 최대 100자 이하")
     private String description;
+    @PositiveOrZero
     private Integer prize;
+    @Size(min = 1, max = 50, message = "최소 1자 이상 최대 50자 이하")
     private String promise;
+
     private String category;
 
     @JsonFormat(pattern = "yyyy-MM-dd")

@@ -23,8 +23,7 @@ public class ControllerAdvisor {
 
         StringBuilder sb = new StringBuilder();
         for(FieldError error : errors ){
-            sb
-                    .append(error.getDefaultMessage())
+            sb.append(error.getDefaultMessage())
                     .append("\n")
                     .append("입력된 값 : ")
                     .append(error.getRejectedValue())

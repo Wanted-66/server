@@ -5,6 +5,7 @@ import dev.changuii.project.dto.CommentDTO;
 import dev.changuii.project.dto.response.CommentResponseDTO;
 import dev.changuii.project.service.CommentService;
 import dev.changuii.project.service.IdempotentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class CommentController {
     // todo : 이메일 가져오는 로직 변경해야함
     @PostMapping()
     public ResponseEntity<CommentResponseDTO> createComment(
-            @RequestBody CommentDTO commentDTO,
+            @Valid @RequestBody CommentDTO commentDTO,
             @PathVariable("wantedId") Long wantedId
             ){
         this.idempotentService.isValidIdempotent(Arrays.asList(new String[]{NAME, "POST", commentDTO.getWriterEmail()}));

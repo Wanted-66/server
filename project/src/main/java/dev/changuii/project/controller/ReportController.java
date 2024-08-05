@@ -5,6 +5,7 @@ import dev.changuii.project.dto.ReportDTO;
 import dev.changuii.project.dto.response.ReportResponseDTO;
 import dev.changuii.project.service.IdempotentService;
 import dev.changuii.project.service.ReportService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,7 @@ public class ReportController {
 
     @PostMapping()
     public ResponseEntity<ReportResponseDTO> createReport(
-            @RequestPart("dto")ReportDTO reportDTO,
+            @Valid @RequestPart("dto")ReportDTO reportDTO,
             @RequestPart("image")MultipartFile image,
             @PathVariable("wantedId")Long wantedId
             ) throws IOException {
