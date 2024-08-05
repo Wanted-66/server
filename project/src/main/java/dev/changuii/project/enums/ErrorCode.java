@@ -22,8 +22,12 @@ public enum ErrorCode {
     DUPLICATION_REQUEST("중복된 요청입니다."),
 
 
+    //friendship
+    REQUEST_NOT_FOUND("존재하지 않는 요청입니다."),
+
+
     //TOKEN
-    INVALID_TOKEN("유효하지 않은 토큰");
+    INVALID_TOKEN("유효하지 않은 토큰입니다.");
 
 
     private String errorData;

@@ -1,6 +1,9 @@
 package dev.changuii.project.service.impl;
 
 import dev.changuii.project.dto.response.AuthResponseDto;
+import dev.changuii.project.enums.ErrorCode;
+import dev.changuii.project.exception.CustomException;
+import dev.changuii.project.repository.UserRepository;
 import dev.changuii.project.security.service.JwtProvider;
 import dev.changuii.project.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +15,13 @@ public class AuthServiceImpl implements AuthService {
 
 
     private final JwtProvider jwtProvider;
+    private final UserRepository userRepository;
 
 
     @Autowired
-    public AuthServiceImpl(JwtProvider jwtProvider) {
+    public AuthServiceImpl(JwtProvider jwtProvider, UserRepository userRepository) {
         this.jwtProvider = jwtProvider;
+        this.userRepository = userRepository;
     }
 
 
@@ -26,7 +31,6 @@ public class AuthServiceImpl implements AuthService {
         // need user validation
 
         return AuthResponseDto.builder()
-//                .status(HttpStatus.OK.toString())
                 .message("login successful")
                 .refreshToken(jwtProvider.createRefreshToken("need user PK"))
                 .accessToken(jwtProvider.createAccessToken("need user PK"))
@@ -39,7 +43,6 @@ public class AuthServiceImpl implements AuthService {
         // need user validation
 
         return AuthResponseDto.builder()
-//                .status(HttpStatus.OK.toString())
                 .message("login successful")
                 .refreshToken(jwtProvider.createRefreshToken("need user PK"))
                 .accessToken(jwtProvider.createAccessToken("need user PK"))
@@ -47,28 +50,28 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public AuthResponseDto reissueAccessToken(String nickname) {
+    public AuthResponseDto reissueAccessToken(String email) {
 
-        // need user validation
+        userRepository.findByEmail(email)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         return AuthResponseDto.builder()
-//                .status(HttpStatus.OK.toString())
                 .message("ISSUE ACCESS TOKEN")
                 .refreshToken("")
-                .accessToken(jwtProvider.createAccessToken(nickname))
+                .accessToken(jwtProvider.createAccessToken(email))
                 .build();
     }
 
     @Override
-    public AuthResponseDto reissueRefreshToken(String nickname) {
+    public AuthResponseDto reissueRefreshToken(String email) {
 
-        // need user validation
+        userRepository.findByEmail(email)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
 
         return AuthResponseDto.builder()
-//                .status(HttpStatus.OK.toString())
                 .message("ISSUE REFRESH TOKEN")
-                .refreshToken(jwtProvider.createRefreshToken(nickname))
-                .accessToken(jwtProvider.createAccessToken(nickname))
+                .refreshToken(jwtProvider.createRefreshToken(email))
+                .accessToken(jwtProvider.createAccessToken(email))
                 .build();
     }
 

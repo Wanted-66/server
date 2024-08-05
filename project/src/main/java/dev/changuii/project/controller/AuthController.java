@@ -9,7 +9,6 @@ import dev.changuii.project.service.KakaoService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,14 +48,16 @@ public class AuthController {
     //issue refresh token
     @PostMapping("/issue/access")
     public AuthResponseDto reissueRefreshToken(HttpServletRequest request){
-        return authService.reissueRefreshToken(jwtProvider.getNickname(request));
+        String token = jwtProvider.getToken(request);
+        return authService.reissueRefreshToken(jwtProvider.getEmail(token));
     }
 
 
     //issue access token
     @PostMapping("/issue/refresh")
     public AuthResponseDto reissueAccessToken(HttpServletRequest request){
-        return authService.reissueAccessToken(jwtProvider.getNickname(request));
+        String token = jwtProvider.getToken(request);
+        return authService.reissueAccessToken(jwtProvider.getEmail(token));
     }
 
 }

@@ -62,14 +62,31 @@ public class JwtProvider {
 
     // Jwt 토큰으로 인증 정보를 조회
     public Authentication getAuthentication(String token) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getNickname(token));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(this.getEmail(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 
-    // Jwt 토큰에서 회원 구별 정보 추출
-    public String getNickname(String token) {
+    //
+    /**
+     * Jwt 토큰에서 회원 구별 정보 추출
+     * */
+    public String getEmail(String token) {
 //        return Jwts.parser().setSigningKey(securityKey).parseClaimsJws(token).getBody().getSubject();
         return getClaims(token).getBody().getSubject();
+    }
+
+
+    // Jwt 토큰 추출
+    /**
+     * Jwt 토큰 추출
+     * */
+    public String getToken(HttpServletRequest request){
+        String token = resolveToken(request);
+        if (validToken(token)) {
+            return getEmail(token);
+        } else {
+            throw new CustomException(ErrorCode.INVALID_TOKEN);
+        }
     }
 
     public boolean validToken(String token){
@@ -85,15 +102,6 @@ public class JwtProvider {
         } catch (Exception ex){
             log.info("토큰 유효성 실패");
             throw ex;
-        }
-    }
-
-    public String getNickname(HttpServletRequest request){
-        String token = resolveToken(request);
-        if (validToken(token)) {
-            return getNickname(token);
-        } else {
-            throw new CustomException(ErrorCode.INVALID_TOKEN);
         }
     }
 

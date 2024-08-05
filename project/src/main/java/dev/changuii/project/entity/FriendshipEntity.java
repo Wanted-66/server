@@ -32,4 +32,8 @@ public class FriendshipEntity {
     @Enumerated(EnumType.STRING)
     private FriendshipStatus status;
 
+
+    public void updateState(FriendshipStatus newStatus) {
+        this.status = newStatus;
+    }
 }
