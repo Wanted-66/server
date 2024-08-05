@@ -13,7 +13,6 @@ public class TestController {
 
     private final UserRepository userRepository;
 
-
     public TestController(
             @Autowired  UserRepository userRepository) {
         this.userRepository = userRepository;

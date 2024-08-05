@@ -33,6 +33,8 @@ public class WantedController {
     }
 
 
+    // todo : 이메일 가져오는 로직 변경해야함
+
     @PostMapping("/image")
     public ResponseEntity<WantedResponseDTO> createWantedWithImage(
             @RequestPart("dto") WantedDTO wantedDTO,

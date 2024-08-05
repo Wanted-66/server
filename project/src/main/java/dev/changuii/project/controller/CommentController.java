@@ -30,6 +30,7 @@ public class CommentController {
         this.commentService = commentService;
     }
 
+    // todo : 이메일 가져오는 로직 변경해야함
     @PostMapping()
     public ResponseEntity<CommentResponseDTO> createComment(
             @RequestBody CommentDTO commentDTO,
