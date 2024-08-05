@@ -45,4 +45,8 @@ jobs:
           key: ${{ secrets.AWS_PRIVATE_KEY }}
           script: |
             cd deploy_data
+            sudo docker stop wanted
+            sudo docker rm wanted
+            sudo docker rmi ${{ secrets.DOCKER_NICKNAME }}/wanted66:latest
+            sudo docker pull ${{ secrets.DOCKER_NICKNAME }}/wanted66:latest
             sudo docker run -d -p ${{ secrets.DOCKER_SERVICE_PORT }} --name wanted --network ${{ secrets.DOCKER_NETWORK }} --env-file=${{ secrets.DEPLOY_DATA }} ${{ secrets.DOCKER_NICKNAME }}/wanted66:latest
