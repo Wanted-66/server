@@ -18,13 +18,11 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Chmod gradlew
-        run: chmod +x gradlew
-
       - name: Gradle Build
-        uses: gradle/gradle-build-action@v2.6.0
-        with:
-          arguments: clean build
+        run: |
+          cd project
+          chmod +x gradlew
+          ./gradlew clean build
 
       - name: Docker Login
         uses: docker/login-action@v2.2.0
