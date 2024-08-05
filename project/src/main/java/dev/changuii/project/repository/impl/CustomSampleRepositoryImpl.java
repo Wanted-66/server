@@ -68,7 +68,7 @@ public class CustomSampleRepositoryImpl implements CustomSampleRepository {
                                 userEntity.userDesignationList))
                 .from(friendshipEntity)
                 .leftJoin(userEntity)
-                .on(friendshipEntity.receiver.email.eq(userEntity.email).and(friendshipEntity.status.eq(FriendshipStatus.REQUESTING))).fetch();
+                .on(friendshipEntity.receiver.email.eq(userEntity.email).and(friendshipEntity.status.eq(FriendshipStatus.WAITING))).fetch();
     }
 
 

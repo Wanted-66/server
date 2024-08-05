@@ -46,7 +46,7 @@ public class AuthController {
     }
 
     //issue refresh token
-    @PostMapping("/issue/access")
+    @GetMapping("/issue/access")
     public AuthResponseDto reissueRefreshToken(HttpServletRequest request){
         String token = jwtProvider.getToken(request);
         return authService.reissueRefreshToken(jwtProvider.getEmail(token));
@@ -54,7 +54,7 @@ public class AuthController {
 
 
     //issue access token
-    @PostMapping("/issue/refresh")
+    @GetMapping("/issue/refresh")
     public AuthResponseDto reissueAccessToken(HttpServletRequest request){
         String token = jwtProvider.getToken(request);
         return authService.reissueAccessToken(jwtProvider.getEmail(token));

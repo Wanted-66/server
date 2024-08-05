@@ -71,7 +71,7 @@ public class FriendshipServiceImpl implements FriendshipService {
                 FriendshipEntity.builder()
                 .sender(sender)
                 .receiver(receiver)
-                .status(FriendshipStatus.REQUESTING)
+                .status(FriendshipStatus.WAITING)
                 .build());
 
         //TODO: 알람 전송
