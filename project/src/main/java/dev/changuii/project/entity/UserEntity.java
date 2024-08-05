@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -46,9 +47,10 @@ public class UserEntity {
     @Column(name = "user_bank_account")
     private String bankAccount;
 
-    @Column(name = "user_designation")
-    @Enumerated(EnumType.STRING)
-    private UserDesignation designation;
+    @Column(name = "user_designation_list")
+    @ElementCollection
+    @OrderColumn(name = "designation_order")
+    private List<UserDesignation> userDesignationList = Arrays.asList(UserDesignation.NEWBIE);
 
     @OneToMany(mappedBy = "writer")
     private List<CommentEntity> comments = new ArrayList<>();
@@ -64,5 +66,24 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "receiver")
     private List<FriendshipEntity> receiverFriendship = new ArrayList<>();
+
+    public UserEntity setUserImage(String url){
+        this.profileImage=url;
+        return this;
+    }
+
+    public UserDesignation wearDesignation(UserDesignation designation){
+        this.userDesignationList.remove(designation);
+        this.userDesignationList.add(0, designation);
+        return designation;
+    }
+
+    public UserDesignation addDesignation(UserDesignation designation){
+        this.userDesignationList.add(designation);
+        return designation;
+    }
+
+
+
 
 }

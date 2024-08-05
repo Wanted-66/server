@@ -1,5 +1,7 @@
 package dev.changuii.project.service.impl;
 
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
@@ -58,9 +60,29 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
+    public void deleteImage(String imageName) {
+        // 기본 이미지 삭제 불가.
+        if(imageName.equals("basic.png")){
+            throw new CustomException(ErrorCode.S3_IMAGE_BASIC_DELETE_EXCEPTION);
+        }
+
+        try {
+            this.amazonS3.deleteObject(this.bucketName, imageName);
+        }catch (SdkClientException e){
+            throw new CustomException(ErrorCode.S3_IMAGE_DELETE_EXCEPTION);
+        }
+
+    }
+
+    @Override
     public byte[] imageDownload(String data) throws IOException {
         S3Object image = amazonS3.getObject(bucketName, data);
         return image.getObjectContent().readAllBytes();
+    }
+
+    @Override
+    public String extractionKey(String url) {
+        return url.replace(serverDomain + "/api/image/", "");
     }
 
 
