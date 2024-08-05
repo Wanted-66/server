@@ -2,9 +2,7 @@ package dev.changuii.project.service.impl;
 
 import dev.changuii.project.dto.FriendRequestAllowDto;
 import dev.changuii.project.dto.FriendRequestDto;
-import dev.changuii.project.dto.SearchUserDto;
-import dev.changuii.project.dto.response.FriendListResponseDto;
-import dev.changuii.project.dto.response.FriendRequestResponseDto;
+import dev.changuii.project.dto.response.FriendshipResponseDto;
 import dev.changuii.project.entity.FriendshipEntity;
 import dev.changuii.project.entity.UserEntity;
 import dev.changuii.project.enums.ErrorCode;
@@ -18,7 +16,6 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,7 +39,7 @@ public class FriendshipServiceImpl implements FriendshipService {
     }
 
     @Override
-    public List<FriendListResponseDto> getFriends(String email) {
+    public List<FriendshipResponseDto> getFriends(String email) {
 
         userRepository.findByEmail(email)
                 .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
@@ -51,14 +48,13 @@ public class FriendshipServiceImpl implements FriendshipService {
     }
 
     @Override
-    public List<FriendRequestResponseDto> getFriendRequestList(String email) {
+    public List<FriendshipResponseDto> getFriendRequestList(String email) {
         return friendshipRepository.friendRequestList(email);
     }
 
     @Override
-    public Slice<FriendListResponseDto> findUserByNickname(SearchUserDto searchUserDto) {
-
-        return friendshipRepository.findUserByNickname(searchUserDto);
+    public List<FriendshipResponseDto> findUserByNickname(String email, String nickname) {
+        return friendshipRepository.findUserByNickname(email, nickname);
     }
 
     @Override

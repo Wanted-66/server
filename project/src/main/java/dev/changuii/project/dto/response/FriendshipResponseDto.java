@@ -4,15 +4,14 @@ import dev.changuii.project.enums.UserDesignation;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
 @ToString
-public class FriendListResponseDto {
+public class FriendshipResponseDto {
 
-
+    Long friendshipId;
 
     Long id;
     String name;
