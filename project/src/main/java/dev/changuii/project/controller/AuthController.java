@@ -57,10 +57,15 @@ public class AuthController {
     @GetMapping("/check/{nickname}")
     public ResponseEntity<Void> checkDuplicate(@PathVariable String nickname)
     {
-        userRepository.findByNickname(nickname)
+        try
+        {
+            userRepository.findByNickname(nickname)
                 .orElseThrow(()->new CustomException(ErrorCode.NICKNAME_DUPLICATE));
-
-        return ResponseEntity.ok().build();
+            return ResponseEntity.badRequest().build();
+        }catch (CustomException e)
+        {
+            return ResponseEntity.ok().build();
+        }
     }
 
 
