@@ -54,8 +54,8 @@ public class AuthController {
     }
 
     //닉네임 중복체크
-    @GetMapping("/check")
-    public ResponseEntity<Void> checkDuplicate(String nickname)
+    @GetMapping("/check/{nickname}")
+    public ResponseEntity<Void> checkDuplicate(@PathVariable String nickname)
     {
         userRepository.findByNickname(nickname)
                 .orElseThrow(()->new CustomException(ErrorCode.USER_NOT_FOUND));
