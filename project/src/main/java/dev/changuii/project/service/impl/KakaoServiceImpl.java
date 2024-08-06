@@ -1,8 +1,13 @@
 package dev.changuii.project.service.impl;
 
 import dev.changuii.project.dto.response.KakaoTokenResponseDto;
+import dev.changuii.project.entity.UserEntity;
+import dev.changuii.project.enums.ErrorCode;
+import dev.changuii.project.exception.CustomException;
+import dev.changuii.project.repository.UserRepository;
 import dev.changuii.project.service.KakaoService;
 import io.netty.handler.codec.http.HttpHeaderValues;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +26,7 @@ public class KakaoServiceImpl implements KakaoService {
 
     private final WebClient webClient;
     private final String TOKEN_URL = "https://kauth.kakao.com";
+    private final UserRepository userRepository;
     @Value("${kakao.client_id}")
     private String kakaoClientId;
 
@@ -34,12 +40,14 @@ public class KakaoServiceImpl implements KakaoService {
 //    https://kauth.kakao.com/oauth/token
 
 
-    public KakaoServiceImpl(@Autowired WebClient.Builder webClientBuilder) {
+    public KakaoServiceImpl(@Autowired WebClient.Builder webClientBuilder, UserRepository userRepository) {
         this.webClient = webClientBuilder.baseUrl("https://kauth.kakao.com").build();
+        this.userRepository = userRepository;
     }
 
 
     @Override
+    @Transactional
     public KakaoTokenResponseDto getKakaoAccessToken(String code) {
 
         KakaoTokenResponseDto kakaoTokenResponseDto = webClient.post()
@@ -58,14 +66,35 @@ public class KakaoServiceImpl implements KakaoService {
                 .block();
 
 
+        assert kakaoTokenResponseDto != null;
+        String userEmail = webClient.post()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/v2/user/me")
+                        .queryParam("property_keys", "kakao_account.email")
+                        .build(true))
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .header("Authorization" , "Bearer " + kakaoTokenResponseDto.getAccessToken())
+                .retrieve().bodyToMono(String.class)
+                .block();
 
 
-        log.info(" [Kakao Service] Access Token \n {}", kakaoTokenResponseDto.getAccessToken());
-        log.info(" [Kakao Service] Refresh Token \n {}", kakaoTokenResponseDto.getRefreshToken());
-        //제공 조건: OpenID Connect가 활성화 된 앱의 토큰 발급 요청인 경우 또는 scope에 openid를 포함한 추가 항목 동의 받기 요청을 거친 토큰 발급 요청인 경우
-        log.info(" [Kakao Service] Id Token \n {}", kakaoTokenResponseDto.getIdToken());
-        log.info(" [Kakao Service] Scope \n {}", kakaoTokenResponseDto.getScope());
+        try {
+            userRepository.findByEmail(userEmail)
+                    .orElseThrow(()-> new CustomException(ErrorCode.USER_NOT_FOUND));
+        }
+        catch (CustomException e)
+        {
+            UserEntity.builder()
+                    .email(kakaoTokenResponseDto.getEmail())
+                    .build();
 
+            userRepository.save(
+                    UserEntity.builder()
+                            .email(kakaoTokenResponseDto.getEmail())
+                            .build());
+        }
+
+        kakaoTokenResponseDto.setEmail(userEmail);
 
         return kakaoTokenResponseDto;
     }

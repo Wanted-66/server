@@ -7,9 +7,8 @@ import dev.changuii.project.enums.UserDesignation;
 import dev.changuii.project.exception.CustomException;
 import dev.changuii.project.repository.UserRepository;
 import dev.changuii.project.service.ImageService;
-import dev.changuii.project.service.UserSerivce;
+import dev.changuii.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +18,7 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserSerivce {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final ImageService imageService;

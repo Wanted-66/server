@@ -5,7 +5,7 @@ import dev.changuii.project.dto.response.ResponseDTO;
 import dev.changuii.project.enums.UserDesignation;
 import dev.changuii.project.security.service.JwtProvider;
 import dev.changuii.project.service.IdempotentService;
-import dev.changuii.project.service.UserSerivce;
+import dev.changuii.project.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,17 +21,17 @@ import java.util.List;
 @RequestMapping("/api/user")
 public class UserController {
 
-    private final UserSerivce userSerivce;
+    private final UserService userService;
     private final JwtProvider jwtProvider;
     private final IdempotentService idempotentService;
     private final String NAME = "USER";
 
     public UserController(
-            @Autowired UserSerivce userSerivce,
+            @Autowired UserService userService,
             @Autowired JwtProvider jwtProvider,
             @Autowired IdempotentService idempotentService
     ){
-        this.userSerivce=userSerivce;
+        this.userService = userService;
         this.jwtProvider=jwtProvider;
         this.idempotentService=idempotentService;
     }
@@ -50,7 +50,7 @@ public class UserController {
         String email = this.extractUserEmail(request);
         this.idempotentService.isValidIdempotent(Arrays.asList(NAME, "PATCH_IMAGE", email));
         return ResponseEntity.status(HttpStatus.OK)
-                .body(this.userSerivce.changeUserProfileImage(email, image));
+                .body(this.userService.changeUserProfileImage(email, image));
     }
 
     @GetMapping("/designation")
@@ -59,7 +59,7 @@ public class UserController {
     ){
         String email = this.extractUserEmail(request);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(this.userSerivce.readUserDesignation(email));
+                .body(this.userService.readUserDesignation(email));
     }
 
     @PatchMapping("/designation/{designation}")
@@ -70,7 +70,7 @@ public class UserController {
         String email = this.extractUserEmail(request);
         this.idempotentService.isValidIdempotent(Arrays.asList(NAME, "PATCH_DESIGNATION", email));
         return ResponseEntity.status(HttpStatus.OK)
-                .body(this.userSerivce.changeDesignation(email, designation));
+                .body(this.userService.changeDesignation(email, designation));
     }
 
     @PostMapping("/designation/{designation}")
@@ -81,7 +81,7 @@ public class UserController {
         String email = this.extractUserEmail(request);
         this.idempotentService.isValidIdempotent(Arrays.asList(NAME, "POST_DESIGNATION", email));
         return ResponseEntity.status(HttpStatus.OK)
-                .body(this.userSerivce.addDesignation(email, designation));
+                .body(this.userService.addDesignation(email, designation));
 
     }
 
