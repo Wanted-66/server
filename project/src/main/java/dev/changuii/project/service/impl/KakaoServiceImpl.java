@@ -80,7 +80,7 @@ public class KakaoServiceImpl implements KakaoService {
 
         try {
             userRepository.findByEmail(userEmail)
-                    .orElseThrow(()-> new CustomException(ErrorCode.USER_NOT_FOUND));
+                    .orElseThrow(()-> new CustomException(ErrorCode.DUPLICATION_EMAIL_EXCEPTION));
         }
         catch (CustomException e)
         {

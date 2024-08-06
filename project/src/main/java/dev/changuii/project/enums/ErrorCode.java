@@ -8,7 +8,7 @@ public enum ErrorCode {
     USER_NOT_FOUND("존재하지 않는 사용자"),
     DESIGNATION_NOT_OWN("소유하지 않은 칭호"),
     DESIGNATION_DUPLICATION("이미 존재하는 칭호"),
-
+    NICKNAME_DUPLICATE("닉네임 중복"),
 
     // S3
     S3_IMAGE_PUT_EXCEPTION("이미지 업로드 중 에러"),

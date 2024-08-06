@@ -58,7 +58,7 @@ public class AuthController {
     public ResponseEntity<Void> checkDuplicate(@PathVariable String nickname)
     {
         userRepository.findByNickname(nickname)
-                .orElseThrow(()->new CustomException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(()->new CustomException(ErrorCode.NICKNAME_DUPLICATE));
 
         return ResponseEntity.ok().build();
     }
@@ -68,8 +68,13 @@ public class AuthController {
     @PatchMapping("/init")
     public ResponseEntity<Void> addUserInfo(@RequestBody UserSignInDto userSignInDto)
     {
-        authService.updateUserInfo(userSignInDto);
-        return ResponseEntity.ok().build();
+        try {
+            authService.updateUserInfo(userSignInDto);
+            return ResponseEntity.ok().build();
+        }catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+
     }
 
 
