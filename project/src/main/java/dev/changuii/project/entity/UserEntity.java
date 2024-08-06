@@ -89,7 +89,6 @@ public class UserEntity {
     public void initialUpdate(UserSignInDto userSignInDto){
         this.name = userSignInDto.getName();
         this.phoneNum = userSignInDto.getPhoneNum();
-        this.email = userSignInDto.getEmail();
         this.profileImage = userSignInDto.getProfileImage();
         this.nickname = userSignInDto.getNickname();
         this.bankAccount = userSignInDto.getBankAccount();
