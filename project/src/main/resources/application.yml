@@ -42,7 +42,7 @@ cloud:
 
 kakao:
   client_id: 5d3f977e28b7baf6825e7f34c62fd79a
-  redirect_uri: https://wanted66.r-e.kr:80/callback
+  redirect_uri: https://wanted66.r-e.kr/callback
 
 ---
 # dev
